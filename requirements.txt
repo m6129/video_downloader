@@ -1,0 +1,4 @@
+streamlit==1.30.0
+pytube==15.0.0
+pendulum==3.0.0
+pip==23.3.2
