@@ -5,6 +5,8 @@ import streamlit as st
 from pathlib import Path
 from pytube import YouTube
 from pendulum import Duration
+from pytube.exceptions import RegexMatchError
+from streamlit.runtime.media_file_storage import MediaFileStorageError
 
 # --- PATH SETTINGS ---
 current_dir = Path(__file__).parent if '__file__' in locals() else Path.cwd()
@@ -44,7 +46,7 @@ def search_resolution(video_url: str, progressive: bool) -> list[str]:
         video = YouTube(video_url)
         resolutions = [i.resolution for i in video.streams.filter(mime_type=MIME, progressive=progressive)]
         return sorted(set(resolutions), reverse=True)
-    except URLError as err:
+    except (URLError, RegexMatchError) as err:
         st.error(err)
 
 
@@ -76,12 +78,15 @@ def prepare_video(video_url: str, resolution: str, progressive: bool) -> str | N
 def main() -> None:
     video_url: str = st.text_input(label='Input Video URL:', value=SAMPLE_URL)
     if video_url:
-        st.video(video_url)
+        try:
+            st.video(video_url)
+        except MediaFileStorageError as err:
+            st.error(err)
         with st.spinner('Update Resolutions List ...'):
             c1, c2, _ = st.columns(3)
             progressive_res = c1.checkbox(label='Use Progressive Resolutions', value=True)
             resolutions = search_resolution(video_url=video_url, progressive=progressive_res)
-            resolution = c2.selectbox(label='Select Video Resolution:', options=resolutions)
+            resolution = c2.selectbox(label='Select Video Resolution:', options=resolutions or [])
 
         title = prepare_video(video_url=video_url, resolution=resolution, progressive=progressive_res)
         if title:
