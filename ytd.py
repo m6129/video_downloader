@@ -5,7 +5,7 @@ import streamlit as st
 from pathlib import Path
 from pytube import YouTube
 from pendulum import Duration
-from pytube.exceptions import RegexMatchError
+from pytube.exceptions import RegexMatchError, VideoUnavailable
 from streamlit.runtime.media_file_storage import MediaFileStorageError
 
 # --- PATH SETTINGS ---
@@ -46,7 +46,7 @@ def search_resolution(video_url: str, progressive: bool) -> list[str]:
         video = YouTube(video_url)
         resolutions = [i.resolution for i in video.streams.filter(mime_type=MIME, progressive=progressive)]
         return sorted(set(resolutions), reverse=True)
-    except (URLError, RegexMatchError) as err:
+    except (URLError, RegexMatchError, VideoUnavailable) as err:
         st.error(err)
 
 
