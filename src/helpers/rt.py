@@ -28,6 +28,7 @@ def prepare_rt_video(url: str, resolution: str):
                 video = [item for item in rt.playlist if item.resolution == resolution][0]
                 video.download(filename=DEFAULT_NAME)
                 title = video.title
+                st.success(f'Video [`{title}`] Prepared Successfully.')
                 return title
 
 
