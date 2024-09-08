@@ -53,7 +53,7 @@ def download_yt_video(url: str):
     show_video(data=url)
     with st.spinner('Update Resolutions List ...'):
         c1, c2, _ = st.columns(3)
-        progressive_res = c1.checkbox(label='Use Progressive Resolutions', value=False)
+        progressive_res = c1.checkbox(label='Use Progressive Resolutions', value=True)
         resolutions = search_yt_resolution(video_url=url, progressive=progressive_res)
         resolution = c2.selectbox(label='Select Video Resolution:', options=resolutions or [])
 
