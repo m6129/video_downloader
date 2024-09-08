@@ -58,4 +58,4 @@ def download_yt_video(url: str):
         resolution = c2.selectbox(label='Select Video Resolution:', options=resolutions or [])
 
     title = prepare_yt_video(video_url=url, resolution=resolution, progressive=progressive_res)
-    download_video_locally(title=title)
+    download_video_locally(title=f'{title} {resolution}')
