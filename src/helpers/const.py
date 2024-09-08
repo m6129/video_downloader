@@ -1,0 +1,7 @@
+SAMPLE_URL: str = 'https://www.youtube.com/watch?v=8HZ4DnVfWYQ'
+MIME: str = 'video/mp4'
+DEFAULT_EXT: str = 'mp4'
+DEFAULT_NAME: str = f'video.{DEFAULT_EXT}'
+SAVE_PATH: str = '.'
+RUTUBE_KEY: str = 'rutube.ru'
+VK_KEY: str = 'vk.com'

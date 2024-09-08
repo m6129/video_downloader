@@ -1,4 +1,7 @@
-streamlit==1.30.0
+streamlit==1.38.0
 pytube==15.0.0
 pendulum==3.0.0
-pip==23.3.2
+pip==24.2
+
+m3u8~=6.0.0
+requests~=2.31.0
