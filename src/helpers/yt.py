@@ -17,7 +17,7 @@ def sort_resolutions(resolutions: list[str], reverse: bool = True) -> list[str]:
 @st.cache_data
 def search_yt_resolution(video_url: str, progressive: bool) -> list[str]:
     try:
-        video = YouTube(url=video_url)
+        video = YouTube(url=video_url, use_po_token=True)
         resolutions = [i.resolution for i in video.streams.filter(mime_type=MIME, progressive=progressive)]
         return sort_resolutions(resolutions)
     except (URLError, RegexMatchError, VideoUnavailable) as err:
@@ -29,7 +29,7 @@ def prepare_yt_video(video_url: str, resolution: str, progressive: bool) -> str 
         if st.form_submit_button('Prepare Video'):
             with st.spinner('Preparing Video ...'):
                 try:
-                    video = YouTube(url=video_url)
+                    video = YouTube(url=video_url, use_po_token=True)
                     if video:
                         title = video.title
                         st.write(f'Title: `{title}`')
