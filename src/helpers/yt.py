@@ -2,20 +2,24 @@ import streamlit as st
 
 from urllib.error import URLError
 
-from pytube import YouTube
+from pytubefix import YouTube
+from pytubefix.exceptions import RegexMatchError, VideoUnavailable
 from pendulum import Duration
-from pytube.exceptions import RegexMatchError, VideoUnavailable
 
 from src.helpers.const import MIME, SAVE_PATH, DEFAULT_NAME
 from src.helpers.utils import show_video, download_video_locally
 
 
+def sort_resolutions(resolutions: list[str], reverse: bool = True) -> list[str]:
+    return sorted(set(resolutions), key=lambda x: int(x[:-1]), reverse=reverse)
+
+
 @st.cache_data
 def search_yt_resolution(video_url: str, progressive: bool) -> list[str]:
     try:
-        video = YouTube(video_url)
+        video = YouTube(url=video_url)
         resolutions = [i.resolution for i in video.streams.filter(mime_type=MIME, progressive=progressive)]
-        return sorted(set(resolutions), reverse=True)
+        return sort_resolutions(resolutions)
     except (URLError, RegexMatchError, VideoUnavailable) as err:
         st.error(err)
 
@@ -49,7 +53,7 @@ def download_yt_video(url: str):
     show_video(data=url)
     with st.spinner('Update Resolutions List ...'):
         c1, c2, _ = st.columns(3)
-        progressive_res = c1.checkbox(label='Use Progressive Resolutions', value=True)
+        progressive_res = c1.checkbox(label='Use Progressive Resolutions', value=False)
         resolutions = search_yt_resolution(video_url=url, progressive=progressive_res)
         resolution = c2.selectbox(label='Select Video Resolution:', options=resolutions or [])
 
