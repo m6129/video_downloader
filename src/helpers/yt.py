@@ -3,6 +3,7 @@ import streamlit as st
 from urllib.error import URLError
 
 from pytubefix import YouTube
+from pytubefix.cli import on_progress
 from pytubefix.exceptions import RegexMatchError, VideoUnavailable
 from pendulum import Duration
 
