@@ -26,6 +26,7 @@ def get_yt_obj(url: str) -> YouTube:
         return YouTube(
             url=url,
             use_po_token=True,
+            allow_oauth_cache=False,
             po_token_verifier=po_token_verifier,
             on_progress_callback=on_progress,
         )
