@@ -59,7 +59,7 @@ def prepare_yt_video(yt_obj: YouTube, resolution: str, progressive: bool) -> str
 
 def download_yt_video(url: str):
     show_video(data=url)
-    yt_obj = get_yt_obj(url=utl)
+    yt_obj = get_yt_obj(url=url)
     with st.spinner('Update Resolutions List ...'):
         c1, c2, _ = st.columns(3)
         progressive_res = c1.checkbox(label='Use Progressive Resolutions', value=True)
