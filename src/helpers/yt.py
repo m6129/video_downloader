@@ -38,24 +38,21 @@ def prepare_yt_video(yt_obj: YouTube, resolution: str, progressive: bool) -> str
     with st.form('prepare_yt_video'):
         if st.form_submit_button('Prepare Video'):
             with st.spinner('Preparing Video ...'):
-                try:  # TODO: drop try block here
-                    if yt_obj:
-                        title = yt_obj.title
-                        st.write(f'Title: `{title}`')
-                        st.write(f'Publish Date: `{yt_obj.publish_date}`')
-                        st.write(f'Duration: `{Duration(seconds=yt_obj.length)}`')
-                        st.write(f'Views: `{yt_obj.views}`')
-                        yt_obj.streams.filter(
-                            res=resolution,
-                            progressive=progressive,
-                        ).first().download(
-                            output_path=SAVE_PATH,
-                            filename=DEFAULT_NAME,
-                        )
-                        st.success('Video Prepared Successfully.')
-                        return title
-                except URLError as err:
-                    st.error(err)
+                if yt_obj:
+                    title = yt_obj.title
+                    st.write(f'Title: `{title}`')
+                    st.write(f'Publish Date: `{yt_obj.publish_date}`')
+                    st.write(f'Duration: `{Duration(seconds=yt_obj.length)}`')
+                    st.write(f'Views: `{yt_obj.views}`')
+                    yt_obj.streams.filter(
+                        res=resolution,
+                        progressive=progressive,
+                    ).first().download(
+                        output_path=SAVE_PATH,
+                        filename=DEFAULT_NAME,
+                    )
+                    st.success('Video Prepared Successfully.')
+                    return title
 
 
 def download_yt_video(url: str):
