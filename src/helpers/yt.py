@@ -15,20 +15,24 @@ def sort_resolutions(resolutions: list[str], reverse: bool = True) -> list[str]:
     return sorted(set(resolutions), key=lambda x: int(x[:-1]), reverse=reverse)
 
 
+def po_token_verifier() -> tuple[str, str]:
+    po_token = st.secrets.yt.po_token
+    visitor_data = st.secrets.yt.visitor_data
+    return visitor_data, po_token
+
+
 def get_yt_obj(url: str) -> YouTube:
     try:
         return YouTube(
             url=url,
             use_po_token=True,
-            po_token=st.secrets.yt.po_token,
-            visitor_data=st.secrets.yt.visitor_data,
+            po_token_verifier=po_token_verifier,
             on_progress_callback=on_progress,
         )
     except (URLError, RegexMatchError, VideoUnavailable) as err:
         st.error(err)
 
 
-@st.cache_data
 def search_yt_resolution(yt_obj: YouTube, progressive: bool) -> list[str]:
     resolutions = [i.resolution for i in yt_obj.streams.filter(mime_type=MIME, progressive=progressive)]
     return sort_resolutions(resolutions)
