@@ -11,7 +11,7 @@ def show_video(data, format_: str=MIME):
         st.error(err)
 
 
-def download_video_locally(title: str, file_name: str = DEFAULT_NAME, mime: str = MIME) -> None:
+def download_video_locally(title: str | None = None, file_name: str = DEFAULT_NAME, mime: str = MIME) -> None:
     if title:
         with open(file_name, 'rb') as file:
             if st.download_button('Download', data=file, file_name=f'{title}.{DEFAULT_EXT}', mime=mime):
