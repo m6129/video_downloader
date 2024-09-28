@@ -3,3 +3,7 @@ backgroundColor = "#352F44"
 secondaryBackgroundColor = "#008170"
 primaryColor = "#C70039"
 textColor = "#FAF0E6"
+
+[browser]
+gatherUsageStats = false
+
